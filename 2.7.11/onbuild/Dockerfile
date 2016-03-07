@@ -9,13 +9,8 @@ ENV             PYTHONUNBUFFERED True
 ENV             PIP_NO_CACHE_DIR off
 ENV             PIP_DISABLE_PIP_VERSION_CHECK on
 
-# gpg: key 18ADD4FF: public key "Benjamin Peterson <benjamin@python.org>" imported
-ENV GPG_KEY C01E1CAD5EA2C4F0B8E3571504C367C218ADD4FF
-
-ENV PYTHON_VERSION 2.7.11
-
 # if this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
-ENV PYTHON_PIP_VERSION 8.0.3
+ENV             PYTHON_PIP_VERSION 8.1.0
 
 
 RUN             apk --no-cache add \
@@ -37,6 +32,16 @@ RUN             apk --no-cache add --virtual .builddeps \
                     libpng-dev && \
                 ln -s /lib/libz.so /usr/lib/. && \
                 pip install wheel==0.29.0 && \
+                pip install \
+                    cython==0.23.4 \
+                    pyOpenSSL==0.15.1 \
+                    ndg-httpsclient==0.4.0 \
+                    pyasn1==0.1.9 \
+                    pyasn1-modules==0.0.8 \
+                    pycparser==2.14 \
+                    cryptography==1.2.3 \
+                    cffi==1.5.2 \
+                    certifi==2015.11.20.1 && \
                 apk --no-cache add --virtual .rundeps \
                     zlib \
                     jpeg \
@@ -50,6 +55,7 @@ ONBUILD COPY    requirements.txt /usr/src/app/
 ONBUILD RUN     cat requirements.txt | grep -oh -E "builddeps:(\w|,|-)*" | awk '{split($0,a,":"); print a[2]}' | awk '{gsub(/,/, "\n", $0); print $0}' | sort -u | xargs apk --no-cache add --virtual .builddeps && \
                 cat requirements.txt | grep -oh -E "rundeps:(\w|,|-)*" | awk '{split($0,a,":"); print a[2]}' | awk '{gsub(/,/, "\n", $0); print $0}' | sort -u | xargs apk --no-cache add --virtual .rundeps && \
                 pip install -r requirements.txt && \
+                pip uninstall -y cython && \
                 apk del .builddeps && \
                 find /usr/ \
                     \( -type d -a -name test -o -name tests \) \
