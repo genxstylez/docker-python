@@ -40,8 +40,7 @@ RUN             apk --no-cache add --virtual .builddeps \
                     pyasn1-modules==0.0.8 \
                     pycparser==2.14 \
                     cryptography==1.2.3 \
-                    cffi==1.5.2 \
-                    certifi==2015.11.20.1 && \
+                    cffi==1.5.2 && \
                 apk --no-cache add --virtual .rundeps \
                     zlib \
                     jpeg \
