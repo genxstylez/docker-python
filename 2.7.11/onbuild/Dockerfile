@@ -1,4 +1,4 @@
-FROM alpine:3.3
+FROM alpine:edge
 MAINTAINER Sam Liu <genxstylez@gmail.com>
 
 # http://bugs.python.org/issue19846
@@ -10,7 +10,7 @@ ENV             PIP_NO_CACHE_DIR off
 ENV             PIP_DISABLE_PIP_VERSION_CHECK on
 
 # if this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
-ENV             PYTHON_PIP_VERSION 8.1.0
+ENV             PYTHON_PIP_VERSION 8.1.2
 
 
 RUN             apk --no-cache add \
@@ -25,8 +25,8 @@ RUN             apk --no-cache add \
 RUN             apk --no-cache add --virtual .builddeps \
                     build-base \
                     python-dev=$PYTHON_VERSION-r3 \
-                    openssl-dev=1.0.2g-r0 \
-                    libffi-dev=3.2.1-r2 \
+                    openssl-dev \
+                    libffi-dev \
                     zlib-dev  \
                     jpeg-dev \
                     libpng-dev && \
