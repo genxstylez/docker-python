@@ -14,7 +14,7 @@ ENV             PYTHON_PIP_VERSION 8.1.2
 
 
 RUN             apk --no-cache add \
-                    python=$PYTHON_VERSION-r3 \
+                    python=$PYTHON_VERSION-r4 \
                     curl && \
 
                 python -m ensurepip --default-pip && \
@@ -24,7 +24,7 @@ RUN             apk --no-cache add \
 
 RUN             apk --no-cache add --virtual .builddeps \
                     build-base \
-                    python-dev=$PYTHON_VERSION-r3 \
+                    python-dev=$PYTHON_VERSION-r4 \
                     openssl-dev \
                     libffi-dev \
                     zlib-dev  \
